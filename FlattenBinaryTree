@@ -1,0 +1,30 @@
+# Definition for a binary tree node.
+# class TreeNode(object):
+#     def __init__(self, val=0, left=None, right=None):
+#         self.val = val
+#         self.left = left
+#         self.right = right
+'''
+This program flattens a binary tree to a linked list by copying values into an array
+and then replacing the previous tree with a linked list using the values of the array.
+Uses preOrder though can easily be adapted to inOrder or postOrder if desired.
+'''
+class Solution(object):
+    def preOrder(self,root,List):
+        if root is None:
+            return
+        List.append(root.val)
+        self.preOrder(root.left,List)
+        self.preOrder(root.right,List)
+
+    def flatten(self, root):
+        if root is None or (root.right == None and root.left == None):
+            return
+        List = []
+        self.preOrder(root,List)
+        List.append(0)
+        for i in range(len(List)-2):
+            temp = TreeNode(List[i+1],None,None)
+            root.right = temp
+            root.left = None
+            root = root.right
